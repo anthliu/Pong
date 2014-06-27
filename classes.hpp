@@ -10,9 +10,10 @@ public:
   int x;
   int y;
   Pair(int setX, int setY);
+  Pair();
 };
 
-Pair addPair(Pair addOne, Pair addTwo);
+Pair addPair(Pair const &addOne, Pair const &addTwo);
 Pair scalarPair(int scalar, Pair onePair);
 
 class Wall
@@ -25,6 +26,19 @@ public:
   Wall(Pair setLocation, Pair setSize, sf::Color setColor);
   Pair getLocation();
   Pair getSize();
+  void move(Pair units);
 };
 
+class Ball
+{
+  sf::CircleShape circle;
+  sf::Color color;
+  Pair location;
+  int radius;
+  Pair velocity;
+public:
+  Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor);
+  void move(Pair units);
+  void update();
+};
 #endif
