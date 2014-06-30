@@ -51,6 +51,11 @@ void Wall::move(Pair units)
   rectangle.setPosition(location.x, location.y);
 }
 
+void Wall::draw(sf::RenderWindow& window)
+{
+  window.draw(rectangle);
+}
+
 //--------------------------
 
 Ball::Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor)
@@ -73,4 +78,9 @@ void Ball::move(Pair units)
 void Ball::update()
 {
   move(velocity);
+}
+
+void Ball::draw(sf::RenderWindow& window)
+{
+  window.draw(circle);
 }

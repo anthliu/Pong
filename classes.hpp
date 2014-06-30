@@ -27,6 +27,7 @@ public:
   Pair getLocation();
   Pair getSize();
   void move(Pair units);
+  void draw(sf::RenderWindow& window);
 };
 
 class Ball
@@ -40,5 +41,6 @@ public:
   Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor);
   void move(Pair units);
   void update();
+  void draw(sf::RenderWindow& window);
 };
 #endif
