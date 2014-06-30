@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include "classes.hpp"
 
 Pair::Pair(int setX, int setY)
@@ -32,6 +33,7 @@ Wall::Wall(Pair setLocation, Pair setSize, sf::Color setColor)
   color = setColor;
 
   rectangle.setPosition(location.x, location.y);
+  rectangle.setSize(sf::Vector2f(size.x, size.y));
   rectangle.setFillColor(color);
 }
 

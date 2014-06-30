@@ -2,6 +2,8 @@
 #define CLASSES_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+
 #define GRAVITY 10
 
 class Pair
