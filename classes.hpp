@@ -2,7 +2,6 @@
 #define CLASSES_HPP
 
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 
 #define GRAVITY 10
 
@@ -41,6 +40,7 @@ class Ball
   Pair velocity;
 public:
   Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor);
+  void setPos(Pair newLocation);
   void move(Pair units);
   void update();
   void draw(sf::RenderWindow& window);

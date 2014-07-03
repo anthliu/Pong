@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #include "classes.hpp"
 
 Pair::Pair(int setX, int setY)
@@ -69,6 +68,12 @@ Ball::Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor
   velocity = setVelocity;
   color = setColor;
   circle.setFillColor(color);
+}
+
+void Ball::setPos(Pair newLocation)
+{
+  location = newLocation;
+  circle.setPosition(location.x, location.y);
 }
 
 void Ball::move(Pair units)
