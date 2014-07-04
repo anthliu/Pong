@@ -33,7 +33,7 @@ int main()
   Wall right_paddle(Pair(right_paddle_contact, WINDOW_HEIGHT / 2 - PADDLE_LENGTH / 2), Pair(UNIT_WIDTH, PADDLE_LENGTH), white);
 
   Pair ball_location(WINDOW_LENGTH / 2, WINDOW_HEIGHT / 2);
-  Pair ball_velocity(INIT_BALL_SPEED, 0);
+  Pair ball_velocity(INIT_BALL_SPEED, 10);
 
   Ball ball(ball_location, ball_velocity, BALL_SIZE, white);
 
@@ -74,6 +74,33 @@ int main()
 
       left_paddle.move(Pair(0, left_move));
       right_paddle.move(Pair(0, right_move));
+
+      if (ball_location.y + ball_velocity.y - BALL_SIZE < upper_limit)
+	{
+	  ball_location.y = 2 * upper_limit - ball_location.y - ball_velocity.y;
+	  ball_velocity.y *= -1;
+	  ball_location.x += ball_velocity.x;
+	} else if (ball_location.y + ball_velocity.y + BALL_SIZE > lower_limit)
+	{
+	  ball_location.y = 2 * lower_limit - ball_location.y - ball_velocity.y;
+	  ball_velocity.y *= -1;
+	  ball_location.x += ball_velocity.x;
+	} else if (ball_location.x + ball_velocity.x + BALL_SIZE > right_paddle_contact)
+	{
+	  ball_location.x = 2 * right_paddle_contact - ball_location.x - ball_velocity.x;
+	  ball_velocity.x *= -1;
+	  ball_location.y += ball_velocity.y;
+	} else if (ball_location.x + ball_velocity.x - BALL_SIZE < left_paddle_contact)
+	{
+	  ball_location.x = 2 * left_paddle_contact - ball_location.x - ball_velocity.x;
+	  ball_velocity.x *= -1;
+	  ball_location.y += ball_velocity.y;
+	} else
+	{
+	  ball_location.x += ball_velocity.x;
+	  ball_location.y += ball_velocity.y;
+	}
+      ball.setPos(ball_location);
 
       window.clear(sf::Color::Black);
       left_paddle.draw(window);
