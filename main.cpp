@@ -40,6 +40,9 @@ int main()
   int left_score = 0;
   int right_score = 0;
 
+  int left_move = 0;
+  int right_move = 0;
+
   while (window.isOpen() and !game_over(left_score, right_score))
     {
       sf::Event event;
@@ -48,6 +51,29 @@ int main()
 	  if (event.type == sf::Event::Closed)
 	    window.close();
 	}
+
+      left_move = 0;
+      right_move = 0;
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+	  right_move -= PADDLE_SPEED;
+        } 
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+	  right_move += PADDLE_SPEED;
+        } 
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        {
+	  left_move -= PADDLE_SPEED;
+        } 
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+	  left_move += PADDLE_SPEED;
+        }
+
+      left_paddle.move(Pair(0, left_move));
+      right_paddle.move(Pair(0, right_move));
 
       window.clear(sf::Color::Black);
       left_paddle.draw(window);
