@@ -61,10 +61,10 @@ void Wall::draw(sf::RenderWindow& window)
 
 Ball::Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor)
 {
-  location = setLocation;
-  circle.setPosition(location.x, location.y);
   radius = setRadius;
   circle.setRadius(radius);
+  location = setLocation;
+  circle.setPosition(location.x + radius / 2, location.y - radius / 2);
   velocity = setVelocity;
   color = setColor;
   circle.setFillColor(color);
@@ -73,7 +73,7 @@ Ball::Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor
 void Ball::setPos(Pair newLocation)
 {
   location = newLocation;
-  circle.setPosition(location.x, location.y);
+  circle.setPosition(location.x + radius / 2, location.y - radius / 2);
 }
 
 void Ball::move(Pair units)
