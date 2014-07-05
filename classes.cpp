@@ -64,7 +64,7 @@ Ball::Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor
   radius = setRadius;
   circle.setRadius(radius);
   location = setLocation;
-  circle.setPosition(location.x + radius / 2, location.y - radius / 2);
+  circle.setPosition(location.x - radius, location.y - radius);
   velocity = setVelocity;
   color = setColor;
   circle.setFillColor(color);
@@ -73,7 +73,7 @@ Ball::Ball(Pair setLocation, Pair setVelocity, int setRadius, sf::Color setColor
 void Ball::setPos(Pair newLocation)
 {
   location = newLocation;
-  circle.setPosition(location.x + radius / 2, location.y - radius / 2);
+  circle.setPosition(location.x - radius, location.y - radius);
 }
 
 void Ball::move(Pair units)
