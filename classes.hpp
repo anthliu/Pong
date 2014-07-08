@@ -5,6 +5,8 @@
 
 #define GRAVITY 10
 
+int round(float number);
+
 class Pair
 {
 public:
@@ -16,6 +18,8 @@ public:
 
 Pair addPair(Pair const &addOne, Pair const &addTwo);
 Pair scalarPair(int scalar, Pair onePair);
+
+Pair rotate(Pair const &vector, float degree);
 
 class Wall
 {

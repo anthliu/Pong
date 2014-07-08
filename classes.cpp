@@ -1,5 +1,11 @@
 #include <SFML/Graphics.hpp>
+#include <math.h>
 #include "classes.hpp"
+
+int round(float number)
+{
+  return (int) floor(number + 0.5);
+}
 
 Pair::Pair(int setX, int setY)
 {
@@ -23,6 +29,14 @@ Pair scalarPair(int scalar, Pair const &onePair)
   return Pair(scalar * onePair.x, scalar * onePair.y);
 }
 
+Pair rotate(Pair const &vector, float degree)
+{
+  Pair rotated_vector;
+  rotated_vector.x = round(vector.x * cos(degree) - vector.y * sin(degree));
+  rotated_vector.y = round(vector.y * cos(degree) + vector.x * sin(degree));
+  return rotated_vector;
+}
+  
 //-------------------
 
 Wall::Wall(Pair setLocation, Pair setSize, sf::Color setColor)
