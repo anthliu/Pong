@@ -43,7 +43,7 @@ int main()
   Wall right_paddle(Pair(right_paddle_contact, WINDOW_HEIGHT / 2 - PADDLE_LENGTH / 2), Pair(UNIT_WIDTH, PADDLE_LENGTH), white);
 
   Pair ball_location(WINDOW_LENGTH / 2, WINDOW_HEIGHT / 2);
-  Pair ball_velocity(INIT_BALL_SPEED, 5);
+  Pair ball_velocity(INIT_BALL_SPEED, 0);
 
   Ball ball(ball_location, ball_velocity, BALL_SIZE, white);
 
@@ -54,6 +54,7 @@ int main()
   int right_move = 0;
 
   int paddle_height;
+  int collide_height;
 
   sf::Text left_text;
   sf::Text right_text;
@@ -116,24 +117,30 @@ int main()
 	} else if (ball_location.x + ball_velocity.x + BALL_SIZE > right_paddle_contact)
 	{
 	  paddle_height = right_paddle.getLocation().y + PADDLE_LENGTH / 2;
-	  ball_location.x = 2 * (right_paddle_contact) - ball_location.x - 2 * BALL_SIZE - ball_velocity.x;
-	  ball_velocity.x *= -1;
-	  ball_location.y += ball_velocity.y;
-	  if ((paddle_height + PADDLE_LENGTH / 2 < ball_location.y) or (paddle_height - PADDLE_LENGTH / 2 > ball_location.y))
+	  collide_height = ball_location.y + round((double)(ball_velocity.y)) * ((double)(right_paddle_contact - BALL_SIZE - ball_location.x) / ((double)ball_velocity.x));
+	  if ((paddle_height + PADDLE_LENGTH / 2 < collide_height) or (paddle_height - PADDLE_LENGTH / 2 > collide_height))
 	    {
 	      left_score++;
 	      reset(ball_location, ball_velocity, true);
+	    } else
+	    {
+	      ball_location.x = 2 * (right_paddle_contact) - ball_location.x - 2 * BALL_SIZE - ball_velocity.x;
+	      ball_velocity.x *= -1;
+	      ball_location.y += ball_velocity.y;	  
 	    }
 	} else if (ball_location.x + ball_velocity.x - BALL_SIZE < left_paddle_contact)
 	{
 	  paddle_height = left_paddle.getLocation().y + PADDLE_LENGTH / 2;
-	  ball_location.x = 2 * (left_paddle_contact) - ball_location.x + 2 * BALL_SIZE- ball_velocity.x;
-	  ball_velocity.x *= -1;
-	  ball_location.y += ball_velocity.y;
-	  if ((paddle_height + PADDLE_LENGTH / 2 < ball_location.y) or (paddle_height - PADDLE_LENGTH / 2 > ball_location.y))
+	  collide_height = ball_location.y + round((double)(ball_velocity.y)) * ((double)(left_paddle_contact - BALL_SIZE - ball_location.x) / ((double)ball_velocity.x));
+	  if ((paddle_height + PADDLE_LENGTH / 2 < collide_height) or (paddle_height - PADDLE_LENGTH / 2 > collide_height))
 	    {
 	      right_score++;
 	      reset(ball_location, ball_velocity, false);
+	    } else
+	    {
+	      ball_location.x = 2 * (left_paddle_contact) - ball_location.x + 2 * BALL_SIZE- ball_velocity.x;
+	      ball_velocity.x *= -1;
+	      ball_location.y += ball_velocity.y;
 	    }
 	} else
 	{
