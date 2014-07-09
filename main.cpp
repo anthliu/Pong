@@ -14,11 +14,20 @@
 #define BALL_ACCELERATION 5
 #define BALL_SIZE 15
 
+#define SCORE_SIZE 40
+
 bool game_over(int left, int right);
 void reset(Pair& location, Pair& velocity, bool direction);
 
 int main()
 {
+  sf::Font font;
+  if(!font.loadFromFile("arial.ttf"))
+    {
+      std::cout << "Font arial not loaded!\n";
+      std::exit(0);
+    }
+
   sf::RenderWindow window(sf::VideoMode(WINDOW_LENGTH, WINDOW_HEIGHT), "Pong");
   window.setVerticalSyncEnabled(true);
   window.setFramerateLimit(30);
@@ -45,6 +54,21 @@ int main()
   int right_move = 0;
 
   int paddle_height;
+
+  sf::Text left_text;
+  sf::Text right_text;
+
+  left_text.setFont(font);
+  right_text.setFont(font);
+
+  left_text.setCharacterSize(SCORE_SIZE);
+  right_text.setCharacterSize(SCORE_SIZE);
+
+  left_text.setColor(white);
+  right_text.setColor(white);
+
+  left_text.setPosition(WINDOW_LENGTH / 3, UNIT_WIDTH);
+  right_text.setPosition(2 * WINDOW_LENGTH / 3, UNIT_WIDTH);
 
   while (window.isOpen() and !game_over(left_score, right_score))
     {
@@ -97,7 +121,6 @@ int main()
 	  ball_location.y += ball_velocity.y;
 	  if ((paddle_height + PADDLE_LENGTH / 2 < ball_location.y) or (paddle_height - PADDLE_LENGTH / 2 > ball_location.y))
 	    {
-	      printf("%d\n", paddle_height);
 	      left_score++;
 	      reset(ball_location, ball_velocity, true);
 	    }
@@ -120,7 +143,12 @@ int main()
 
       ball.setPos(ball_location);
 
+      left_text.setString(std::to_string(left_score));
+      right_text.setString(std::to_string(right_score));
+
       window.clear(sf::Color::Black);
+      window.draw(left_text);
+      window.draw(right_text);
       left_paddle.draw(window);
       right_paddle.draw(window);
       ball.draw(window);
@@ -129,7 +157,13 @@ int main()
     }
 
   if (window.isOpen())
-    window.close();
+    {
+      if (left_score > right_score)
+	std::cout << "Left wins!\n";
+      else
+	std::cout << "Right wins!\n";
+      window.close();
+    }
 
   return 0;
 }
