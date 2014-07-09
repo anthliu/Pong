@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <math.h>
+#include <cmath>
 #include "classes.hpp"
 
 int round(float number)

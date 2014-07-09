@@ -11,7 +11,7 @@
 #define PADDLE_SPEED 10
 
 #define INIT_BALL_SPEED 5
-#define BALL_ACCELERATION 5
+#define BALL_ACCELERATION 20
 #define BALL_SIZE 15
 
 #define SCORE_SIZE 40
@@ -55,6 +55,7 @@ int main()
 
   int paddle_height;
   int collide_height;
+  int y_acceleration;
 
   sf::Text left_text;
   sf::Text right_text;
@@ -125,8 +126,10 @@ int main()
 	    } else
 	    {
 	      ball_location.x = 2 * (right_paddle_contact) - ball_location.x - 2 * BALL_SIZE - ball_velocity.x;
-	      ball_velocity.x *= -1;
-	      ball_location.y += ball_velocity.y;	  
+	      y_acceleration = round(BALL_ACCELERATION * ((float)(paddle_height - collide_height) / (float)(paddle_height)));
+	      ball_velocity.x = -1 * (ball_velocity.x + BALL_ACCELERATION / 10);
+	      ball_velocity.y -= y_acceleration;
+	      ball_location.y += ball_velocity.y;
 	    }
 	} else if (ball_location.x + ball_velocity.x - BALL_SIZE < left_paddle_contact)
 	{
@@ -139,7 +142,9 @@ int main()
 	    } else
 	    {
 	      ball_location.x = 2 * (left_paddle_contact) - ball_location.x + 2 * BALL_SIZE- ball_velocity.x;
-	      ball_velocity.x *= -1;
+	      y_acceleration = round(BALL_ACCELERATION * ((float)(paddle_height - collide_height) / (float)(paddle_height)));
+	      ball_velocity.x = -1 * (ball_velocity.x - BALL_ACCELERATION / 10);
+	      ball_velocity.y -= y_acceleration;
 	      ball_location.y += ball_velocity.y;
 	    }
 	} else
