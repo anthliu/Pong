@@ -15,6 +15,7 @@
 #define BALL_SIZE 15
 
 bool game_over(int left, int right);
+void reset(Pair& location, Pair& velocity, bool direction);
 
 int main()
 {
@@ -42,6 +43,8 @@ int main()
 
   int left_move = 0;
   int right_move = 0;
+
+  int paddle_height;
 
   while (window.isOpen() and !game_over(left_score, right_score))
     {
@@ -88,14 +91,27 @@ int main()
 	  ball_location.x += ball_velocity.x;
 	} else if (ball_location.x + ball_velocity.x + BALL_SIZE > right_paddle_contact)
 	{
+	  paddle_height = right_paddle.getLocation().y + PADDLE_LENGTH / 2;
 	  ball_location.x = 2 * (right_paddle_contact) - ball_location.x - 2 * BALL_SIZE - ball_velocity.x;
 	  ball_velocity.x *= -1;
 	  ball_location.y += ball_velocity.y;
+	  if ((paddle_height + PADDLE_LENGTH / 2 < ball_location.y) or (paddle_height - PADDLE_LENGTH / 2 > ball_location.y))
+	    {
+	      printf("%d\n", paddle_height);
+	      left_score++;
+	      reset(ball_location, ball_velocity, true);
+	    }
 	} else if (ball_location.x + ball_velocity.x - BALL_SIZE < left_paddle_contact)
 	{
+	  paddle_height = left_paddle.getLocation().y + PADDLE_LENGTH / 2;
 	  ball_location.x = 2 * (left_paddle_contact) - ball_location.x + 2 * BALL_SIZE- ball_velocity.x;
 	  ball_velocity.x *= -1;
 	  ball_location.y += ball_velocity.y;
+	  if ((paddle_height + PADDLE_LENGTH / 2 < ball_location.y) or (paddle_height - PADDLE_LENGTH / 2 > ball_location.y))
+	    {
+	      right_score++;
+	      reset(ball_location, ball_velocity, false);
+	    }
 	} else
 	{
 	  ball_location.x += ball_velocity.x;
@@ -126,4 +142,16 @@ bool game_over(int left, int right)
 	return true;
     }
   return false;
+}
+
+void reset(Pair& location, Pair& velocity, bool direction)
+{
+  location.x = WINDOW_LENGTH / 2;
+  location.y = WINDOW_HEIGHT / 2;
+  //direction true: start right, false: start left
+  if (direction)
+    velocity.x = INIT_BALL_SPEED;
+  else
+    velocity.x = -1 * INIT_BALL_SPEED;
+  velocity.y = 0;
 }
